@@ -1,47 +1,58 @@
-CC=c++
-CFLAGS=-std=c++11 -O2
-INCDIR=-I./
-OBJECTS=bitinput.o bitoutput.o crc32.o decoder.o encoder.o gunzip.o \
-	gzip.o huffcanonical.o huffsize.o hufftree.o lzss.o main.o
+PROGRAM=cxxgzip
+DEPS=deflate.hpp
+OBJS=bitinput.o bitoutput.o crc32.o decoder.o encoder.o gunzip.o\
+ gzip.o huffcanonical.o huffsize.o hufftree.o lzss.o main.o
 
-cxxgzip : deflate.hpp $(OBJECTS)
-	$(CC) $(CFLAGS) -o cxxgzip $(OBJECTS)
+CXX=c++
+CPPFLAGS=-I.
+CXXFLAGS=-std=c++11 -Wall -O2
+LDFLAGS=-std=c++11
 
-bitinput.o : deflate.hpp bitinput.cpp
-	$(CC) $(CFLAGS) -c bitinput.cpp
+all : $(PROGRAM)
 
-bitoutput.o : deflate.hpp bitoutput.cpp
-	$(CC) $(CFLAGS) -c bitoutput.cpp
+$(PROGRAM) : $(OBJS)
+	$(CXX) $(LDFLAGS) -o $(PROGRAM) $(OBJS)
 
-crc32.o : deflate.hpp crc32.cpp
-	$(CC) $(CFLAGS) -c crc32.cpp
+#%.o : %.cpp $(DEPS)
+#	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $<
 
-decoder.o : deflate.hpp decoder.cpp
-	$(CC) $(CFLAGS) -c decoder.cpp
+bitinput.o : bitinput.cpp $(DEPS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c bitinput.cpp
 
-encoder.o : deflate.hpp encoder.cpp
-	$(CC) $(CFLAGS) -c encoder.cpp
+bitoutput.o : bitoutput.cpp $(DEPS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c bitoutput.cpp
 
-gunzip.o : deflate.hpp gunzip.cpp
-	$(CC) $(CFLAGS) -c gunzip.cpp
+crc32.o : crc32.cpp $(DEPS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c crc32.cpp
 
-gzip.o : deflate.hpp gzip.cpp
-	$(CC) $(CFLAGS) -c gzip.cpp
+decoder.o : decoder.cpp $(DEPS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c decoder.cpp
 
-huffcanonical.o : deflate.hpp huffcanonical.cpp
-	$(CC) $(CFLAGS) -c huffcanonical.cpp
+encoder.o : encoder.cpp $(DEPS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c encoder.cpp
 
-huffsize.o : deflate.hpp huffsize.cpp
-	$(CC) $(CFLAGS) -c huffsize.cpp
+gunzip.o : gunzip.cpp $(DEPS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c gunzip.cpp
 
-hufftree.o : deflate.hpp hufftree.cpp
-	$(CC) $(CFLAGS) -c hufftree.cpp
+gzip.o : gzip.cpp $(DEPS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c gzip.cpp
 
-lzss.o : deflate.hpp lzss.cpp
-	$(CC) $(CFLAGS) -c lzss.cpp
+huffcanonical.o : huffcanonical.cpp $(DEPS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c huffcanonical.cpp
 
-main.o : deflate.hpp main.cpp
-	$(CC) $(CFLAGS) -c main.cpp
+huffsize.o : huffsize.cpp $(DEPS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c huffsize.cpp
+
+hufftree.o : hufftree.cpp $(DEPS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c hufftree.cpp
+
+lzss.o : lzss.cpp $(DEPS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c lzss.cpp
+
+main.o : main.cpp $(DEPS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c main.cpp
 
 clean :
-	rm -f $(OBJECTS) cxxgzip
+	rm -f $(PROGRAM) $(OBJS)
+
+.PHONY: clean

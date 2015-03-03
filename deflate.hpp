@@ -168,8 +168,10 @@ public:
         HASHLOG2 = 13
     };
     lzss_compression (std::shared_ptr<digest_base> const& d)
-        : buf (BUFSIZE, 0), msize (0), digest (d),
-          idx (BUFSIZE, -WINSIZE), top (HASHSIZE, -WINSIZE) {}
+        : buf (BUFSIZE, 0), idx (BUFSIZE, -WINSIZE),
+          top (HASHSIZE, -WINSIZE),
+          digest (d),
+          msize (0) {}
     std::size_t size () const { return msize; }
     void decompress_literal (std::ostream& cout, int const c);
     void decompress_length_distance (std::ostream& cout,
@@ -177,10 +179,10 @@ public:
     int compress (std::istream& cin, huffman_encoder& huffman);
 private:
     std::vector<uint8_t> buf;
-    std::vector<int> top;
     std::vector<int> idx;
-    int msize;
+    std::vector<int> top;
     std::shared_ptr<digest_base> digest;
+    int msize;
     void put (int const c);
     int index_3gram (int const cur);
     bool longest_match (int const cur, int& len, int& dist);

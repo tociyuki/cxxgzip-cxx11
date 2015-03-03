@@ -54,12 +54,12 @@ void gunzip ()
     if (cm != 8)
         throw std::runtime_error ("cppgzip: illegal cm.");
     std::uint32_t flg = decoder.getbyte ();
-    std::uint32_t mtime = decoder.get4byte ();
-    std::uint32_t xfl = decoder.getbyte ();
-    std::uint32_t os = decoder.getbyte ();
+    /* std::uint32_t mtime = */ decoder.get4byte ();
+    /* std::uint32_t xfl = */   decoder.getbyte ();
+    /* std::uint32_t os = */    decoder.getbyte ();
     if (flg & 4) {
         std::uint32_t xlen = decoder.get2byte ();
-        for (int i = 0; i < xlen; ++i)
+        for (std::uint32_t i = 0; i < xlen; ++i)
             decoder.getbyte ();
     }
     if (flg & 8)

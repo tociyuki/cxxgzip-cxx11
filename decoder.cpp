@@ -140,7 +140,7 @@ void huffman_decoder::decode_custom_block_hctable (
     std::vector<int> hcsize (19, 0);
     std::vector<int> hccode;
     /* (HCLEN + 4) x 3 bits: code lengths for the code length */
-    for (int i = 0; i < hclen + 4; ++i) {
+    for (std::uint32_t i = 0; i < hclen + 4; ++i) {
         std::uint32_t c;
         getdata (3, c);
         hcsize[hcindex[i]] = c;
@@ -161,7 +161,7 @@ void huffman_decoder::decode_custom_block_table (
      * HDIST + 1  code lengths for the distance alphabet,
      *            encoded using the code length Huffman code
      */
-    int n = hlit + 257 + hdist + 1;
+    std::uint32_t n = hlit + 257 + hdist + 1;
     std::vector<int> a;
     for (;;) {
         std::uint32_t c, huff, m;
@@ -172,17 +172,17 @@ void huffman_decoder::decode_custom_block_table (
         else if (c == 16) {
             getdata (2, m);
             d = a.back ();
-            for (int i = 0; i < m + 3; ++i)
+            for (std::uint32_t i = 0; i < m + 3; ++i)
                 a.push_back (d);
         }
         else if (c == 17) {
             getdata (3, m);
-            for (int i = 0; i < m + 3; ++i)
+            for (std::uint32_t i = 0; i < m + 3; ++i)
                 a.push_back (0);
         }
         else if (c == 18) {
             getdata (7, m);
-            for (int i = 0; i < m + 11; ++i)
+            for (std::uint32_t i = 0; i < m + 11; ++i)
                 a.push_back (0);
         }
         if (a.size () >= n)

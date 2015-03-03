@@ -38,7 +38,7 @@ void make_huffman_tree (std::vector<int> const& hfsize,
     std::shared_ptr<huffman_tree>& hftree)
 {
     auto tree = std::make_shared<huffman_tree> ();
-    for (int code = 0; code < hfsize.size (); ++code)
+    for (std::size_t code = 0; code < hfsize.size (); ++code)
         if (hfsize[code] > 0) {
             int bits = hfsize[code];
             int huff = hfcode[code];

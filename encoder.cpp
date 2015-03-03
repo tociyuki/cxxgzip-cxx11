@@ -154,7 +154,7 @@ void huffman_encoder::encode_fixed_block ()
 {
     putbit (1);
     putdata (2, 1);
-    for (int i = 0; i < codelist.size (); ++i) {
+    for (std::size_t i = 0; i < codelist.size (); ++i) {
         int c = codelist[i];
         if (c <= 256) {
             int bits;
@@ -207,7 +207,7 @@ void huffman_encoder::encode_custom_block (
      * HDIST + 1 code lengths for the distance alphabet,
      * encoded using the code length Huffman code
      */
-    for (int i = 0; i < hclist.size (); ++i) {
+    for (std::size_t i = 0; i < hclist.size (); ++i) {
         int c = hclist[i];
         puthuffman (hcsize[c], hchuff[c]);
         if (c == 16)
@@ -220,7 +220,7 @@ void huffman_encoder::encode_custom_block (
     /* The actual compressed data of the block,
      * The literal/length symbol 256 (end of data)
      */
-    for (int i = 0; i < codelist.size (); ++i) {
+    for (std::size_t i = 0; i < codelist.size (); ++i) {
         int c = codelist[i];
         if (c <= 256)
             puthuffman (litsize[c], lithuff[c]);
@@ -248,13 +248,13 @@ int huffman_encoder::estimate_stat_custom (
 {
     int n = 5 + 5 + 4 + stat_extra;
     n += hccounts.size () * 3;
-    for (int i = 0; i < hccounts.size (); ++i) {
+    for (std::size_t i = 0; i < hccounts.size (); ++i) {
         n += hccounts[i] * hcsize[i];
     }
-    for (int i = 0; i < litcounts.size (); ++i) {
+    for (std::size_t i = 0; i < litcounts.size (); ++i) {
         n += litcounts[i] * litsize[i];
     }
-    for (int i = 0; i < distcounts.size (); ++i) {
+    for (std::size_t i = 0; i < distcounts.size (); ++i) {
         n += distcounts[i] * distsize[i];
     }
     return n;
@@ -348,7 +348,7 @@ void huffman_encoder::compress_custom_table (
             runlength.push_back (1);
         }
     /* encoded using the code length Huffman code */
-    for (int i = 0; i < code.size (); ++i)
+    for (std::size_t i = 0; i < code.size (); ++i)
         if (code[i] == 0)
             runlength_zeros (runlength[i]);
         else

@@ -101,7 +101,7 @@ void make_huffman_limitedsize (std::vector<int> const& counts,
         std::vector<coin_ptr> coins (freq.begin (), freq.end ());
         for (int i = limit - 1; i >= 0; --i) {
             std::vector<coin_ptr> pairs;
-            for (int j = 0; j < coins.size (); j += 2)
+            for (std::size_t j = 0; j < coins.size (); j += 2)
                 if (j + 1 < coins.size ())
                     pairs.push_back (
                         std::make_shared<pair_coin> (coins[j], coins[j + 1]));
@@ -114,7 +114,7 @@ void make_huffman_limitedsize (std::vector<int> const& counts,
                             coins.begin (), coinptr_less);
             }
         }
-        for (int i = 0; i < freq.size () - 1; ++i)
+        for (std::size_t i = 0; i < freq.size () - 1; ++i)
             coins[i]->accumulate (hfsize);
     }
 }
